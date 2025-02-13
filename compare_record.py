@@ -12,20 +12,20 @@ def main():
 
     # 传入record.csv and main.csv
     # 以文件形式保存
-    record_csv = "/Users/device/Downloads/JXYCM9TYGD/20250210_22-40-41.041-315851/system/records.csv"
-    main_csv = "/Users/device/Desktop/MainTable.csv"
-    # record_csv = input("传入record.csv: \n").strip()
-    # main_csv = input("传入MainTable.csv: \n").strip()
-    SystemType = "FULL"
-    FanType = "SanAce"
-    # SystemType = input("设置SystemType(FULL/BASE): \n").upper()
-    # if SystemType not in ["FULL","BASE"]:
-    #     print("SystemType格式设置有误")
-    #     sys.exit()
-    # FanType = input("设置FanType(FX/SanAce)区分大小写: \n")
-    # if FanType not in ["FX","SanAce"]:
-    #     print("FanType格式设置有误, 请注意区分大小写")
-    #     sys.exit()
+    # record_csv = "/Users/device/Downloads/JXYCM9TYGD/20250210_22-40-41.041-315851/system/records.csv"
+    # main_csv = "/Users/device/Desktop/MainTable.csv"
+    record_csv = input("传入record.csv: \n").strip()
+    main_csv = input("传入MainTable.csv: \n").strip()
+    # SystemType = "FULL"
+    # FanType = "SanAce"
+    SystemType = input("设置SystemType(FULL/BASE): \n").upper()
+    if SystemType not in ["FULL","BASE"]:
+        print("SystemType格式设置有误")
+        sys.exit()
+    FanType = input("设置FanType(FX/SanAce)区分大小写: \n")
+    if FanType not in ["FX","SanAce"]:
+        print("FanType格式设置有误, 请注意区分大小写")
+        sys.exit()
 
     # 使用set去重
     record_test_item = set()
@@ -97,7 +97,7 @@ def main():
             cnt += 1
 
     if cnt > 0:
-        print("Some item error")
+        print("缺少以上测项!!!")
     else:
         print("PASS!!")
 
