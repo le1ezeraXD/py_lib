@@ -66,9 +66,6 @@ def main():
     except pd.errors.EmptyDataError:
         print(f"{main_csv} 文件为空!")
         sys.exit()
-    # except Exception as e:
-    #     print("未知错误")
-    #     sys.exit()
 
 
     try:
@@ -88,32 +85,32 @@ def main():
     except pd.errors.EmptyDataError:
         print(f"{record_csv} 文件为空!")
         sys.exit()
-    # except Exception as e:
-    #     print("未知错误")
-    #     sys.exit()
 
-
-    # print(len(main_test_item))
-    # print(len(record_test_item))
-    cnt = 0
+    print("\n\n========================================\n")
+    cnt_Main = 0
     # 检查两个csv中record是否有遗漏
     # 除了一些不会create record的测项 已写在前面dummy_item中
     for item in main_test_item:
         if item not in record_test_item:
             if item in dummy_item or item.find('WaitFor') > -1: continue
+            if cnt_Main == 0: print("不在record.csv中的Main测项为:")
             print(item)
-            cnt += 1
+            cnt_Main += 1
 
+    cnt_Record = 0
     for item in record_test_item:
         if item not in main_test_item:
             if item in dummy_item or item.find('WaitFor') > -1: continue
+            if cnt_Record == 0: print("不在MainTable.csv中的Record为:")
             print(item)
-            cnt += 1
+            cnt_Record += 1
 
-    if cnt > 0:
-        print("缺少以上测项!!!")
-    else:
-        print("PASS!!")
+    if cnt_Main == 0: print("无Main测项缺失!!!")
+    else: print(f"Main有{cnt_Main}项缺失!!!")
+    if cnt_Record == 0: print("无Record测项缺失!!!")
+    else:print(f"Record.csv有{cnt_Record}项缺失!!!")
+    print("\n=========================================")
+    if cnt_Main + cnt_Record == 0: print("无测项缺失!!!")
 
 
 if __name__ == "__main__":
