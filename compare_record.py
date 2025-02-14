@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import csv
+import os.path
 import sys
 import pandas as pd
 
@@ -12,19 +13,26 @@ def main():
 
     # 传入record.csv and main.csv
     # 以文件形式保存
-    # record_csv = "/Users/device/Downloads/JXYCM9TYGD/20250210_22-40-41.041-315851/system/records.csv"
-    # main_csv = "/Users/device/Desktop/MainTable.csv"
+    # 检查文件是否存在
     record_csv = input("传入record.csv: \n").strip()
+    record_csv = record_csv.replace('\ ',' ')
+    if not os.path.exists(record_csv):
+        print(f"{record_csv} 路径有误或文件不存在!")
+        sys.exit()
+
     main_csv = input("传入MainTable.csv: \n").strip()
-    # SystemType = "FULL"
-    # FanType = "SanAce"
-    SystemType = input("设置SystemType(FULL/BASE): \n").upper()
+    main_csv = main_csv.replace('\ ', ' ')
+    if not os.path.exists(main_csv):
+        print(f"{main_csv} 路径有误或文件不存在!")
+        sys.exit()
+
+    SystemType = input("设置SystemType(FULL/BASE)不区分大小写: \n").upper()
     if SystemType not in ["FULL","BASE"]:
         print("SystemType格式设置有误")
         sys.exit()
-    FanType = input("设置FanType(FX/SanAce)区分大小写: \n")
-    if FanType not in ["FX","SanAce"]:
-        print("FanType格式设置有误, 请注意区分大小写")
+    FanType = input("设置FanType(FX/SanAce)不区分大小写: \n").lower()
+    if FanType not in ["fx","sanace"]:
+        print("FanType格式设置有误")
         sys.exit()
 
     # 使用set去重
@@ -36,7 +44,7 @@ def main():
     # 那么Compare_OS_Version_BASE就忽略不计
     # FanType同理
     SystemType = "FULL" if SystemType == "BASE" else "BASE"
-    FanType = "FX" if FanType == "SanAce" else "SanAce"
+    FanType = "FX" if FanType == "sanace" else "SanAce"
 
     # 尝试读取整个csv 然后逐行拼接 方便处理Atlas项的问题
     # 处理Main.csv
@@ -54,10 +62,13 @@ def main():
                         main_test_item.add(item)
     except FileNotFoundError:
         print(f"{main_csv} 文件不存在!")
+        sys.exit()
     except pd.errors.EmptyDataError:
         print(f"{main_csv} 文件为空!")
-    except Exception as e:
-        print("未知错误")
+        sys.exit()
+    # except Exception as e:
+    #     print("未知错误")
+    #     sys.exit()
 
 
     try:
@@ -73,10 +84,13 @@ def main():
                         record_test_item.add(item)
     except FileNotFoundError:
         print(f"{record_csv} 文件不存在!")
+        sys.exit()
     except pd.errors.EmptyDataError:
         print(f"{record_csv} 文件为空!")
-    except Exception as e:
-        print("未知错误")
+        sys.exit()
+    # except Exception as e:
+    #     print("未知错误")
+    #     sys.exit()
 
 
     # print(len(main_test_item))
