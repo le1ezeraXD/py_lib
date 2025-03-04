@@ -3,6 +3,8 @@
 # 第二种方法: 使用一个长度为n的哈希表或数组 时间复杂度为O(n) 代价是一个空间O(n)的哈希表或数组 属于空间换时间
 # 最优解: 遍历数组 当扫描下标为i的数字时(记为m) 先将它与i做比较 如果是则继续比较
 # 如果不是则将它与下标m的数字做比较 如果相等证明重复 如果不等则将它与下标m的数字交换位置
+import random
+
 arr = [2,3,1,0,2,5,3]
 
 def repeat_num_exist(arr):
@@ -81,4 +83,35 @@ def Fibonacci_recursive(n):
     return Fibonacci_recursive(n-1) + Fibonacci_recursive(n-2)
 
 
-# 二分查找 适合有序数组
+# Quick Sort
+
+def Partition(data,start,end):
+    if not data or start < 0 or end >= len(data):
+        print("Invalid Input")
+
+    index = random.randint(start,end)
+    data[start],data[end] = data[end],data[start]
+
+    small = start-1
+    for i in range(start,end):
+        if data[i] < data[end]:
+            small += 1
+            if small != i:
+                data[i], data[small] = data[small], data[i]
+
+    small += 1
+    data[small], data[end] = data[end], data[small]
+
+    return small
+
+def QuickSort(data,start,end):
+    if start == end:
+        return
+    index = Partition(data,start,end)
+    if index > start: QuickSort(data,start,index-1)
+    if index < end: QuickSort(data,index+1,end)
+
+
+arr_unsorted = [2,3,1,0,2,5,3]
+QuickSort(arr_unsorted,0,len(arr_unsorted)-1)
+print(arr_unsorted)
