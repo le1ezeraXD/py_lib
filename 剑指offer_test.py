@@ -90,7 +90,7 @@ def Partition(data,start,end):
         print("Invalid Input")
 
     index = random.randint(start,end)
-    data[start],data[end] = data[end],data[start]
+    data[index],data[end] = data[end],data[index]
 
     small = start-1
     for i in range(start,end):
