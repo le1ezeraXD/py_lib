@@ -21,12 +21,12 @@ def add_comment_to_action_lua(root_dir):
                     # comment_line = f"-- {first_level_dir},{coverage}\n"
 
                     # 构造require行
-                    comment_line = """local String = require("FXModules/FXLuaFunc/Common/String")\n"""
+                    comment_line = """local SystemMemory = require("FXModules/FXLuaFunc/Common/SystemMemory")\n"""
 
                     #写入行
                     if comment_line not in content:
                         with open(file_path, "w") as f:
-                            f.write(comment_line+content)
+                            f.write(comment_line + content)
                         print(comment_line)
 
 root_dir = "/Users/device/Desktop/de_Aim_Bot/"
