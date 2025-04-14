@@ -96,7 +96,31 @@ def lua_pattern_to_regex(lua_pattern: str) -> str:
 
     return regex
 
-
-FBAD = "FBAD = testFBAD123\tOK"
-pattern = "FBAD =\s*(.+?)\s*[\r\n\t]+OK"
-print(re.search(pattern,FBAD).group(1))
+def modify_main(source_folder):
+    for root, dirs, files in os.walk(source_folder):
+        flag = False
+        for file in files:
+            if file.endswith('.lua'):
+                file_path = os.path.join(root, file)
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                        content = re.sub("""    -- update Atlas2 UI progress\n    Device.updateProgress\(Device.test \.\. \" \| \" \.\. Device.subtest\)\n""","    FXCom.Action_Start()\n    local funcExecute = function()",content)
+                        arr = content.split('\n')
+                        for i in range(len(arr)):
+                            if flag:
+                                arr[i] = "    " + arr[i]
+                            if 'local funcExecute = function()' in arr[i]:
+                                # print("FLAG!")
+                                flag = not flag
+                                # print(line)
+                            if arr[i] == "    end":
+                                arr[i] = "    end\n    FXCom.Action_End(funcExecute)\nend"
+                        content = "\n".join(arr)
+                        print(content)
+                        flag = not flag
+                except Exception as e:
+                    print(f"无法读取文件 {file_path}，错误: {e}")
+                with open(file_path, "w") as f:
+                    f.write(content)
+# modify_main("/Users/device/Desktop/de_Aim_Bot/Action/Speaker")
